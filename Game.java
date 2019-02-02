@@ -5,9 +5,11 @@ public class Game {
   private boolean player;
   private int len;
   public static void main(String[] args)  {
-    int[][] test = {{2,1,2,1,2,1,2},{1,1,2,1,2,1,2},{2,2,1,2,1,1,1},{1,1,1,2,1,1,1},{2,1,2,1,2,2,2},{1,2,2,1,2,1,1}};
-    printMatrix(test);
-    System.out.println(terminalTest(test, 4));
+    // int[][] test = {{2,1,2,1,2,1,2},{1,1,2,1,2,1,2},{2,2,1,2,1,1,1},{1,1,1,2,1,1,1},{2,1,2,1,2,2,2},{1,2,2,1,2,1,1}};
+    // printMatrix(test);
+    // System.out.println(terminalTest(test, 4));
+    Game temp = new Game(1);
+    printMatrix(temp.getMatrix());
 
   } //end main
 
@@ -27,7 +29,7 @@ public class Game {
     this.matrix = new int[a][b];
     for(int i = 0; i < a; i++) {
       for(int j = 0; j < b; j++) {
-        this.matrix[a][b] = 0;
+        this.matrix[i][j] = 0;
       }
     }
   } //end constructor
@@ -44,7 +46,7 @@ public class Game {
     return this.player;
   }
 
-  public static boolean[] actions(int[][] matrix) {
+  public static boolean[] actions(int[][] matrix) { //checks for valid actions
     int width = matrix[0].length;
     boolean[] list = new boolean[width];
     for(int i = 0; i < width; i++) {
@@ -63,7 +65,7 @@ public class Game {
 
   } //end result
 
-  public static int terminalTest(int[][] matrix, int len) {
+  public static int terminalTest(int[][] matrix, int len) { // to check if we are at a terminal state
     int width = matrix[0].length;
     int height = matrix.length;
     boolean full = true;
