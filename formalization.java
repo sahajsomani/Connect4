@@ -2,11 +2,11 @@ public interface formalization{
 
   public boolean currentPlayer();
 
-  public boolean[] actions();
+  public boolean[] actions(int[][] matrix);
 
   public void result();
 
-  public int terminalTest();
+  public int terminalTest(int [][] matrix, int len);
 
   public int utility();
 
