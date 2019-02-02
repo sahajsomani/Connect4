@@ -219,10 +219,7 @@ public class Game {
   } //end takeInput
 
   public static boolean validateCompInput(int compInput, boolean[] validActions) {
-    if(compInput >= validActions.length) {
-      return false;
-    }
-    else if(validActions[compInput] != true) {
+    if(validActions[compInput] != true) {
       return false;
     }
     return true;
