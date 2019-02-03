@@ -1,10 +1,10 @@
+package connect4;
+
 public abstract class classBot {
   public Game board;
-  public int turn;
 
   public classBot(Game board) {
     this.board = board;
-    this.turn = board.getPlayer();
   }
 
   public Game getBoard() {
