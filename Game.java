@@ -1,3 +1,5 @@
+package connect4;
+
 import java.util.*;
 
 public class Game {
@@ -8,8 +10,8 @@ public class Game {
     // int[][] test = {{2,1,2,1,2,1,2},{1,1,2,1,2,1,2},{2,2,1,2,1,1,1},{1,1,1,2,1,1,1},{2,1,2,1,2,2,2},{1,2,2,1,2,1,1}};
     // printMatrix(test);
     // System.out.println(terminalTest(test, 4));
-    Game temp = new Game(1);
-    printMatrix(temp.getMatrix());
+//    Game temp = new Game(1);
+//    printMatrix(temp.getMatrix());
 
 
   } //end main
@@ -59,12 +61,20 @@ public class Game {
   public void setPlayer(int player) {
     this.player = player;
   }
+  
+  public void turn() {
+	  if(this.player == 1) {
+		  this.player = 2;
+	  } else {
+		  this.player = 1;
+	  }
+  }
 
-  public static boolean[] actions(int[][] matrix) { //checks for valid actions
-    int width = matrix[0].length;
+  public boolean[] actions(int[][] state) { //checks for valid actions, true means action will be valid, false action is illegal
+    int width = state[0].length;
     boolean[] list = new boolean[width];
     for(int i = 0; i < width; i++) {
-      if(matrix[0][i] == 0) {
+      if(state[0][i] == 0) {
         list[i] = true;
       } else {
         list[i] = false;
@@ -74,13 +84,13 @@ public class Game {
     return list;
   } //end actions
 
-  public static int terminalTest(int[][] matrix, int len) { // to check if we are at a terminal state
-    int width = matrix[0].length;
-    int height = matrix.length;
+  public int terminalTest(int[][] state, int len) { // to check if we are at a terminal state
+    int width = state[0].length;
+    int height = state.length;
     boolean full = true;
     ArrayList<Integer> temp = new ArrayList<Integer>();
     for(int i = 0; i < width; i++) {
-      if(matrix[0][i] == 0) {
+      if(state[0][i] == 0) {
         full = false;
         i = width;
       }
@@ -89,7 +99,7 @@ public class Game {
     for(int i = 0; i <= height - len; i++) {
       for(int j = 0; j <= width - len; j++) {
         for(int k = 0; k < len; k++) {
-          temp.add(matrix[i + k][j]);
+          temp.add(state[i + k][j]);
         }
         if(terminalHelp(temp)) {
           i = height - len;
@@ -99,7 +109,7 @@ public class Game {
         temp.clear();
 
         for(int k = 0; k < len; k++) {
-          temp.add(matrix[i][j + k]);
+          temp.add(state[i][j + k]);
         }
         if(terminalHelp(temp)) {
           i = height - len;
@@ -109,7 +119,7 @@ public class Game {
         temp.clear();
 
         for(int k = 0; k < len; k++) {
-          temp.add(matrix[i + k][j + k]);
+          temp.add(state[i + k][j + k]);
         }
         if(terminalHelp(temp)) {
           i = height - len + 1;
@@ -127,7 +137,7 @@ public class Game {
     for(int i = 0; i <= height - len; i++) {
       for(int j = width - 1; j >= len - 1; j--) {
         for(int k = 0; k < len; k++) {
-          temp.add(matrix[i + k][j - k]);
+          temp.add(state[i + k][j - k]);
         }
         if(terminalHelp(temp)) {
           i = height - len + 1;
@@ -137,7 +147,7 @@ public class Game {
         temp.clear();
 
         for(int k = 0; k < len; k++) {
-          temp.add(matrix[i + k][j]);
+          temp.add(state[i + k][j]);
         }
         if(terminalHelp(temp)) {
           i = height - len + 1;
@@ -158,7 +168,7 @@ public class Game {
     return 3;
   }
 
-  private static boolean terminalHelp(ArrayList<Integer> array) {
+  private boolean terminalHelp(ArrayList<Integer> array) {
     for(int i = 0; i < array.size() - 1; i++) {
       if(array.get(i) != array.get(i + 1) || array.get(i) == 0) {
         return false;
@@ -167,15 +177,11 @@ public class Game {
     return true;
   }
 
-  public int utility() {
-    return 0;
-  }
+  public void printMatrix(int[][] state) {
+    int rows = state.length;
+    int cols = state[0].length;
 
-  public static void printMatrix(int[][] matrix) {
-    int rows = matrix.length;
-    int cols = matrix[0].length;
-
-    // prints the matrix using the 2d array
+    // prints the state using the 2d array
     for(int i = -1; i < rows+1; i++) {
       if((i == -1) || (i == rows)) {
         for(int k = -1; k < cols+1; k++) { //printing the outline
@@ -193,15 +199,15 @@ public class Game {
           System.out.print(Integer.toString(i) + " ");
           continue;
         }
-        if(matrix[i][j] == 0) {
+        if(state[i][j] == 0) {
           System.out.print("  ");
         } else {
-          if(matrix[i][j] == 1) {
+          if(state[i][j] == 1) {
             System.out.print("X ");
           } else {
             System.out.print("O ");
           }
-          //System.out.print(Integer.toString(matrix[i][j]) + " ");
+          //System.out.print(Integer.toString(state[i][j]) + " ");
         }
 
       } //end j for loop
@@ -226,10 +232,11 @@ public class Game {
       }
       check = false;
     }
+    scan.close();
     return input;
   } //end takeInput
 
-  public static boolean validateInput(int input, boolean[] validActions) {
+  public boolean validateInput(int input, boolean[] validActions) {
     if(input >= validActions.length) {
       return false;
     }
@@ -239,30 +246,14 @@ public class Game {
     return true;
   } //end validateHumanInput
 
-  public static boolean validateCompInput(int compInput, boolean[] validActions) {
-    if(validActions[compInput] != true) {
-      return false;
-    }
-    return true;
-  } //end validateCompInput
-
-  public static void updateMatrix(int[][] matrix, int input, int player) {
-    for(int i = matrix.length-1; i >= 0; i--) {
-      if(matrix[i][input] == 0) {
-        if(player == 1) {
-          matrix[i][input] = 1;
-        } else {
-          matrix[i][input] = 2;
-        }
-        break;
-      }
-    }
-  } //end updateMatrix
-
-  public static int[][] result(int[][] state, int action) {
-    boolean[] validActions = actions(state);
-    updateMatrix(state, action, this.player);
-    return state;
+  public int[][] result(int[][] state, int action, int player) {
+	  for(int i = state.length-1; i >= 0; i--) {
+		  if(state[i][action] == 0) {
+			  state[i][action] = player;
+	          break;
+		  }
+	  }
+	  return state;
   } //end result
 
 } //end class
