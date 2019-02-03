@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Game {
   private int[][] matrix;
-  private boolean player;
+  private int player;
   private int len;
   public static void main(String[] args)  {
     // int[][] test = {{2,1,2,1,2,1,2},{1,1,2,1,2,1,2},{2,2,1,2,1,1,1},{1,1,1,2,1,1,1},{2,1,2,1,2,2,2},{1,2,2,1,2,1,1}};
@@ -11,9 +11,11 @@ public class Game {
     Game temp = new Game(1);
     printMatrix(temp.getMatrix());
 
+
   } //end main
 
   public Game(int input){
+    this.player = 1; // player 1 = human, 2 = computer
     int a = 6;
     int b = 7;
     len = 4;
@@ -42,8 +44,20 @@ public class Game {
     this.matrix = matrix;
   } //end setMatrix
 
-  public boolean currentPlayer() {
+  public int getLen() {
+    return this.len;
+  }
+
+  public void setLen(int len) {
+    this.len = len;
+  }
+
+  public int getPlayer() {
     return this.player;
+  }
+
+  public void setPlayer(int player) {
+    this.player = player;
   }
 
   public static boolean[] actions(int[][] matrix) { //checks for valid actions
@@ -59,11 +73,6 @@ public class Game {
 
     return list;
   } //end actions
-
-  public void result() {
-    printMatrix(this.matrix);
-
-  } //end result
 
   public static int terminalTest(int[][] matrix, int len) { // to check if we are at a terminal state
     int width = matrix[0].length;
@@ -220,6 +229,16 @@ public class Game {
     return input;
   } //end takeInput
 
+  public static boolean validateInput(int input, boolean[] validActions) {
+    if(input >= validActions.length) {
+      return false;
+    }
+    if(validActions[input] != true) {
+      return false;
+    }
+    return true;
+  } //end validateHumanInput
+
   public static boolean validateCompInput(int compInput, boolean[] validActions) {
     if(validActions[compInput] != true) {
       return false;
@@ -239,5 +258,11 @@ public class Game {
       }
     }
   } //end updateMatrix
+
+  public static int[][] result(int[][] state, int action) {
+    boolean[] validActions = actions(state);
+    updateMatrix(state, action, this.player);
+    return state;
+  } //end result
 
 } //end class

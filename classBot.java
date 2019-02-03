@@ -1,8 +1,10 @@
 public abstract class classBot {
-  private Game board;
+  public Game board;
+  public int turn;
 
   public classBot(Game board) {
     this.board = board;
+    this.turn = board.getPlayer();
   }
 
   public Game getBoard() {
