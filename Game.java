@@ -1,5 +1,3 @@
-package connect4;
-
 import java.util.*;
 
 public class Game {
@@ -7,9 +5,12 @@ public class Game {
   private int player;
   private int len;
   public static void main(String[] args)  {
-    // int[][] test = {{2,1,2,1,2,1,2},{1,1,2,1,2,1,2},{2,2,1,2,1,1,1},{1,1,1,2,1,1,1},{2,1,2,1,2,2,2},{1,2,2,1,2,1,1}};
-    // printMatrix(test);
-    // System.out.println(terminalTest(test, 4));
+    int[][] test = {{2,1,2,1,2,1,2},{2,1,2,1,2,1,2},{1,2,1,2,1,2,1},{1,2,1,2,1,2,1},{2,1,2,1,2,1,2},{2,1,2,1,2,1,2}};
+    Game g = new Game(1);
+    //int[][] test = {{1,1,1},{0,0,0},{0,0,0}};
+    //int[][] test = g.getMatrix();
+    g.printMatrix(test);
+    System.out.println(g.terminalTest(test, 4));
 //    Game temp = new Game(1);
 //    printMatrix(temp.getMatrix());
 
@@ -61,7 +62,7 @@ public class Game {
   public void setPlayer(int player) {
     this.player = player;
   }
-  
+
   public void turn() {
 	  if(this.player == 1) {
 		  this.player = 2;

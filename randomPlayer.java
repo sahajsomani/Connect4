@@ -1,5 +1,3 @@
-package connect4;
-
 import java.util.*;
 
 public class randomPlayer extends classBot{

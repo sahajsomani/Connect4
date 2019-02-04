@@ -1,5 +1,3 @@
-package connect4;
-
 public abstract class classBot {
   public Game board;
 
