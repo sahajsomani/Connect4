@@ -1,6 +1,6 @@
 
 public class minimax extends classBot {
-
+	private long count = 0;
   public minimax(Game board) {
     super(board);
   }
@@ -22,8 +22,8 @@ public class minimax extends classBot {
 
     for(int i = 0; i < actions.length; i++) {
     	if(actions[i]) {
-    		int temp = minValue(board.result(state, i, player), player);
-    		if(temp > v) {
+    		int temp = minValue(board.result(state, i, player));
+    		if(temp >= v) {
     			v = temp;
     			move = i;
     		}
@@ -59,8 +59,8 @@ public class minimax extends classBot {
 	boolean[] actions = board.actions(state);
 	for(int i = 0; i < actions.length; i++) {
 	  if(actions[i]) {
-	    int temp = minValue(board.result(state, i, player), player);
-	    if(temp > v) {
+	    int temp = minValue(board.result(state, i, board.getPlayer()));
+	    if(temp >= v) {
 	    	v = temp;
 	    }
 	  }
@@ -77,15 +77,10 @@ public class minimax extends classBot {
 	  if(util == 0) {
 		  return 0;
 	  } else {
-//		  if((util == 1 && player == 1) || (util == 2 && player == 2)) {
-//			  return -1;
-//		  } else if((util == 1 && player == 2) || (util == 2 && player == 1)){
-//			  return 1;
-//		  }
-		  if(util == 1) {
-			  return -1;
-		  } else if(util == 2) {
+		  if(util == board.getPlayer()) {
 			  return 1;
+		  } else {
+			  return -1;
 		  }
 	  }
 	}
@@ -93,8 +88,8 @@ public class minimax extends classBot {
 	boolean[] actions = board.actions(state);
 	for(int i = 0; i < actions.length; i++) {
 	  if(actions[i]) {
-	    int temp = maxValue(board.result(state, i, player), player);
-	    if(temp < v) {
+	    int temp = maxValue(board.result(state, i, flip(board.getPlayer())));
+	    if(temp <= v) {
 	    	v = temp;
 	    }
 	  }
