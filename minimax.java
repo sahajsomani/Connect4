@@ -9,15 +9,16 @@ public class minimax extends classBot {
   @Override
   public int play() { //copying the game board matrix
     int[][] state = new int[board.getMatrix().length][board.getMatrix()[0].length];
-    int player = board.getPlayer();
-    boolean[] actions = board.actions(state);
-    int move = -1;
-    
+
     for(int i = 0; i < board.getMatrix().length; i++) {
       for(int j = 0; j < board.getMatrix()[0].length; j++) {
         state[i][j] = board.getMatrix()[i][j];
       }
     }
+    boolean[] actions = board.actions(state);
+    int player = board.getPlayer();
+    
+    int move = -1;
     int v = Integer.MIN_VALUE;
     
     for(int i = 0; i < actions.length; i++) {
@@ -34,11 +35,7 @@ public class minimax extends classBot {
   } //end play
 
   public int maxValue(int[][] state, int player) {
-	if(player == 1) {
-		player = 2;
-	} else {
-		player = 1;
-	}
+	player = flip(player);
 	
 	int util = board.terminalTest(state);
 	
@@ -46,11 +43,17 @@ public class minimax extends classBot {
 	  if(util == 0) {
 		  return 0;
 	  } else {
-	    if(util == player) {
-	    	return 1;
-	    } else {
-	    	return -1;
-	    }
+//	    if((util == 1 && player == 1) || (util == 2 && player == 2)) {
+//	    	return 1;
+//	    } else if((util == 1 && player == 2) || (util == 2 && player == 1)){
+//	    	return -1;
+//	    }
+		  
+		  if(util == 1) {
+			  return -1;
+		  } else if(util == 2) {
+			  return 1;
+		  }
 	  }
 	}
 	int v = Integer.MIN_VALUE;
@@ -67,21 +70,22 @@ public class minimax extends classBot {
   } //end maxValue
 
   public int minValue(int[][] state, int player) {
-  if(player == 1) {
-	  player = 2;
-  } else {
-	  player = 1;
-  }
+	  player = flip(player);
   
-  int util = board.terminalTest(state);
+	  int util = board.terminalTest(state);
   
 	if(util != 3) {
 	  if(util == 0) {
 		  return 0;
 	  } else {
-		  if(util == player) {
+//		  if((util == 1 && player == 1) || (util == 2 && player == 2)) {
+//			  return -1;
+//		  } else if((util == 1 && player == 2) || (util == 2 && player == 1)){
+//			  return 1;
+//		  }
+		  if(util == 1) {
 			  return -1;
-		  } else {
+		  } else if(util == 2) {
 			  return 1;
 		  }
 	  }
@@ -99,4 +103,11 @@ public class minimax extends classBot {
 	return v;
   } //end minValue
 
+  private int flip(int player) {
+	  if(player == 1) {
+		  return 2;
+	  } else {
+		  return 1;
+	  }
+  }
 } //end class
