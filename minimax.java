@@ -1,3 +1,4 @@
+package connect4;
 
 public class minimax extends classBot {
 	private long count = 0;
@@ -16,10 +17,10 @@ public class minimax extends classBot {
     }
     boolean[] actions = board.actions(state);
     int player = board.getPlayer();
-
+    
     int move = -1;
     int v = Integer.MIN_VALUE;
-
+    System.out.println(board.getLen());
     for(int i = 0; i < actions.length; i++) {
     	if(actions[i]) {
     		int temp = minValue(board.result(state, i, player));
@@ -29,30 +30,22 @@ public class minimax extends classBot {
     		}
     	}
     }
-
+    
     return move;
   } //end play
 
-  public int maxValue(int[][] state, int player) {
-	player = flip(player);
-
+  public int maxValue(int[][] state) {	
 	int util = board.terminalTest(state);
-
+	
 	if(util != 3) {
 	  if(util == 0) {
 		  return 0;
 	  } else {
-//	    if((util == 1 && player == 1) || (util == 2 && player == 2)) {
-//	    	return 1;
-//	    } else if((util == 1 && player == 2) || (util == 2 && player == 1)){
-//	    	return -1;
-//	    }
-
-		  if(util == 1) {
-			  return -1;
-		  } else if(util == 2) {
-			  return 1;
-		  }
+	    if(util == board.getPlayer()) {
+	    	return 1;
+	    } else {
+	    	return -1;
+	    }
 	  }
 	}
 	int v = Integer.MIN_VALUE;
@@ -68,16 +61,14 @@ public class minimax extends classBot {
 	return v;
   } //end maxValue
 
-  public int minValue(int[][] state, int player) {
-	  player = flip(player);
-
+  public int minValue(int[][] state) {
 	  int util = board.terminalTest(state);
-
+  
 	if(util != 3) {
 	  if(util == 0) {
 		  return 0;
 	  } else {
-		  if(util == 1) {
+		  if(util == board.getPlayer()) {
 			  return 1;
 		  } else {
 			  return -1;
