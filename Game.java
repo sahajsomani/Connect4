@@ -1,3 +1,5 @@
+package connect4;
+
 import java.util.*;
 
 public class Game {
@@ -5,50 +7,23 @@ public class Game {
   private int player;
   private int len;
   public static void main(String[] args)  {
-<<<<<<< HEAD
-    int[][] test = {{2,1,2,1,2,1,2},{2,1,2,1,2,1,2},{1,2,1,2,1,2,1},{1,2,1,2,1,2,1},{2,1,2,1,2,1,2},{2,1,2,1,2,1,2}};
-    Game g = new Game(1);
-    //int[][] test = {{1,1,1},{0,0,0},{0,0,0}};
-    //int[][] test = g.getMatrix();
-    g.printMatrix(test);
-    System.out.println(g.terminalTest(test, 4));
-//    Game temp = new Game(1);
-//    printMatrix(temp.getMatrix());
-=======
-	  Game test = new Game(1);
+	  Game test = new Game(2);
 	  classBot bot = new minimax(test);
 	  test.printMatrix(test.getMatrix());
-	  System.out.println("\n\n\n");
+	  while(true) {
+		  test.setMatrix(test.result(test.getMatrix(), test.takeInput(test.actions(test.getMatrix())), test.getPlayer()));
+		  test.turn();
+		  test.printMatrix(test.getMatrix());
+		  
+		  int num = bot.play();
+		  test.setMatrix(test.result(test.getMatrix(), num, test.getPlayer()));
+		  System.out.println("Bot played " + num);
+		  test.turn();
+		  test.printMatrix(test.getMatrix());
+		  
+		  System.out.println("\n\n");
+	  }
 	  
-	  test.setMatrix(test.result(test.getMatrix(), 1, 1));
->>>>>>> 4979df3c7553f3c0cbc7b496ea26cdb5443099ce
-
-	  test.turn();
-	  test.printMatrix(test.getMatrix());
-	  System.out.println("\n\n\n");
-	  
-
-//	  System.out.println(test.terminalTest(test.getMatrix()));
-	  
-	  test.setMatrix(test.result(test.getMatrix(), bot.play(), test.player));
-	  test.turn();
-	  test.printMatrix(test.getMatrix());
-	  System.out.println("\n\n\n");
-//	  
-	  test.setMatrix(test.result(test.getMatrix(), 1, test.player));
-	  test.turn();
-	  test.printMatrix(test.getMatrix());
-	  System.out.println("\n\n\n");
-//	  
-	  test.setMatrix(test.result(test.getMatrix(), bot.play(), test.player));
-	  test.turn();
-	  test.printMatrix(test.getMatrix());
-	  System.out.println("\n\n\n");
-	  
-	  
-	  test.setMatrix(test.result(test.getMatrix(), 1, 1));
-	  test.printMatrix(test.getMatrix());
-	  System.out.println(test.terminalTest(test.getMatrix()));
 
   } //end main
 
@@ -97,7 +72,7 @@ public class Game {
   public void setPlayer(int player) {
     this.player = player;
   }
-
+  
   public void turn() {
 	  if(this.player == 1) {
 		  this.player = 2;
@@ -259,7 +234,7 @@ public class Game {
     boolean check = true;
     int input = 0;
     while(check) {
-      System.out.println("User input: ");
+      System.out.print("User input: ");
       input = scan.nextInt();
       if(input >= validActions.length) {
         System.out.println("Invalid input. Column does not exist");
@@ -271,7 +246,7 @@ public class Game {
       }
       check = false;
     }
-    scan.close();
+//    scan.close();
     return input;
   } //end takeInput
 
@@ -286,13 +261,20 @@ public class Game {
   } //end validateHumanInput
 
   public int[][] result(int[][] state, int action, int player) {
-	  for(int i = state.length-1; i >= 0; i--) {
-		  if(state[i][action] == 0) {
-			  state[i][action] = player;
+	  int[][] temp = new int[state.length][state[0].length];
+	  for(int i = 0; i < state.length; i++) {
+		  for(int j = 0; j < state[0].length; j++) {
+			  temp[i][j] = state[i][j];
+		  }
+	  }
+	  
+	  for(int i = temp.length - 1; i >= 0; i--) {
+		  if(temp[i][action] == 0) {
+			  temp[i][action] = player;
 	          break;
 		  }
 	  }
-	  return state;
+	  return temp;
   } //end result
 
 } //end class
