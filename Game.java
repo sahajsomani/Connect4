@@ -1,3 +1,4 @@
+package connect4;
 
 import java.util.*;
 
@@ -5,18 +6,6 @@ public class Game {
   private int[][] matrix;
   private int player;
   private int len;
-//   public static void main(String[] args)  {
-//     int[][] test = {{2,1,2,1,2,1,2},{2,1,2,1,2,1,2},{1,2,1,1,1,2,1},{1,2,1,2,1,2,1},{2,1,2,1,2,1,2},{1,1,2,1,2,1,2}};
-//     Game g = new Game(3);
-//     //int[][] test = {{1,1,1},{0,0,0},{0,0,0}};
-//     //int[][] test = g.getMatrix();
-//     g.printMatrix(test);
-//     System.out.println(g.terminalTest(test));
-// //    Game temp = new Game(1);
-// //    printMatrix(temp.getMatrix());
-//
-//   } //end main
-
   public static void main(String[] args)  {
 	  Game test = new Game(2);
 	  classBot bot = new minimax(test);
@@ -25,16 +14,16 @@ public class Game {
 		  test.setMatrix(test.result(test.getMatrix(), test.takeInput(test.actions(test.getMatrix())), test.getPlayer()));
 		  test.turn();
 		  test.printMatrix(test.getMatrix());
-
+		  
 		  int num = bot.play();
 		  test.setMatrix(test.result(test.getMatrix(), num, test.getPlayer()));
 		  test.turn();
 		  System.out.println("Bot played " + num);
 		  test.printMatrix(test.getMatrix());
-
+		  
 		  System.out.println("\n\n");
 	  }
-
+	  
 
   } //end main
 
@@ -83,7 +72,7 @@ public class Game {
   public void setPlayer(int player) {
     this.player = player;
   }
-
+  
   public void turn() {
 	  if(this.player == 1) {
 		  this.player = 2;
@@ -134,7 +123,7 @@ public class Game {
     if(!temp.isEmpty()) {
     	return temp.get(0);
     }
-
+    
     for(int i = 0; i < height; i++) {
     	for(int j = 0; j <= width - this.len; j++) {
     		for(int k = 0; k < this.len; k++) {
@@ -151,7 +140,7 @@ public class Game {
     if(!temp.isEmpty()) {
     	return temp.get(0);
     }
-
+    
     for(int i = 0; i <= height - this.len; i++) {
     	for(int j = 0; j <= width - this.len; j++) {
     		for(int k = 0; k < this.len; k++) {
@@ -168,7 +157,7 @@ public class Game {
     if(!temp.isEmpty()) {
     	return temp.get(0);
     }
-
+    
     for(int i = 0; i <= height - this.len; i++) {
     	for(int j = width - 1; j >= this.len - 1; j--) {
     		for(int k = 0; k < this.len; k++) {
@@ -278,7 +267,7 @@ public class Game {
 			  temp[i][j] = state[i][j];
 		  }
 	  }
-
+	  
 	  for(int i = temp.length - 1; i >= 0; i--) {
 		  if(temp[i][action] == 0) {
 			  temp[i][action] = player;
