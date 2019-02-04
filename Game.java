@@ -5,50 +5,14 @@ public class Game {
   private int player;
   private int len;
   public static void main(String[] args)  {
-<<<<<<< HEAD
-    int[][] test = {{2,1,2,1,2,1,2},{2,1,2,1,2,1,2},{1,2,1,2,1,2,1},{1,2,1,2,1,2,1},{2,1,2,1,2,1,2},{2,1,2,1,2,1,2}};
-    Game g = new Game(1);
+    int[][] test = {{2,1,2,1,2,1,2},{2,1,2,1,2,1,2},{1,2,1,1,1,2,1},{1,2,1,2,1,2,1},{2,1,2,1,2,1,2},{1,1,2,1,2,1,2}};
+    Game g = new Game(3);
     //int[][] test = {{1,1,1},{0,0,0},{0,0,0}};
     //int[][] test = g.getMatrix();
     g.printMatrix(test);
-    System.out.println(g.terminalTest(test, 4));
+    System.out.println(g.terminalTest(test));
 //    Game temp = new Game(1);
 //    printMatrix(temp.getMatrix());
-=======
-	  Game test = new Game(1);
-	  classBot bot = new minimax(test);
-	  test.printMatrix(test.getMatrix());
-	  System.out.println("\n\n\n");
-	  
-	  test.setMatrix(test.result(test.getMatrix(), 1, 1));
->>>>>>> 4979df3c7553f3c0cbc7b496ea26cdb5443099ce
-
-	  test.turn();
-	  test.printMatrix(test.getMatrix());
-	  System.out.println("\n\n\n");
-	  
-
-//	  System.out.println(test.terminalTest(test.getMatrix()));
-	  
-	  test.setMatrix(test.result(test.getMatrix(), bot.play(), test.player));
-	  test.turn();
-	  test.printMatrix(test.getMatrix());
-	  System.out.println("\n\n\n");
-//	  
-	  test.setMatrix(test.result(test.getMatrix(), 1, test.player));
-	  test.turn();
-	  test.printMatrix(test.getMatrix());
-	  System.out.println("\n\n\n");
-//	  
-	  test.setMatrix(test.result(test.getMatrix(), bot.play(), test.player));
-	  test.turn();
-	  test.printMatrix(test.getMatrix());
-	  System.out.println("\n\n\n");
-	  
-	  
-	  test.setMatrix(test.result(test.getMatrix(), 1, 1));
-	  test.printMatrix(test.getMatrix());
-	  System.out.println(test.terminalTest(test.getMatrix()));
 
   } //end main
 
@@ -116,7 +80,7 @@ public class Game {
         list[i] = false;
       }
     }
-
+    
     return list;
   } //end actions
 
@@ -148,7 +112,7 @@ public class Game {
     if(!temp.isEmpty()) {
     	return temp.get(0);
     }
-    
+
     for(int i = 0; i < height; i++) {
     	for(int j = 0; j <= width - this.len; j++) {
     		for(int k = 0; k < this.len; k++) {
@@ -165,7 +129,7 @@ public class Game {
     if(!temp.isEmpty()) {
     	return temp.get(0);
     }
-    
+
     for(int i = 0; i <= height - this.len; i++) {
     	for(int j = 0; j <= width - this.len; j++) {
     		for(int k = 0; k < this.len; k++) {
@@ -182,7 +146,7 @@ public class Game {
     if(!temp.isEmpty()) {
     	return temp.get(0);
     }
-    
+
     for(int i = 0; i <= height - this.len; i++) {
     	for(int j = width - 1; j >= this.len - 1; j--) {
     		for(int k = 0; k < this.len; k++) {
