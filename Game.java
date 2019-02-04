@@ -5,15 +5,36 @@ public class Game {
   private int[][] matrix;
   private int player;
   private int len;
+//   public static void main(String[] args)  {
+//     int[][] test = {{2,1,2,1,2,1,2},{2,1,2,1,2,1,2},{1,2,1,1,1,2,1},{1,2,1,2,1,2,1},{2,1,2,1,2,1,2},{1,1,2,1,2,1,2}};
+//     Game g = new Game(3);
+//     //int[][] test = {{1,1,1},{0,0,0},{0,0,0}};
+//     //int[][] test = g.getMatrix();
+//     g.printMatrix(test);
+//     System.out.println(g.terminalTest(test));
+// //    Game temp = new Game(1);
+// //    printMatrix(temp.getMatrix());
+//
+//   } //end main
+
   public static void main(String[] args)  {
-    int[][] test = {{2,1,2,1,2,1,2},{2,1,2,1,2,1,2},{1,2,1,1,1,2,1},{1,2,1,2,1,2,1},{2,1,2,1,2,1,2},{1,1,2,1,2,1,2}};
-    Game g = new Game(3);
-    //int[][] test = {{1,1,1},{0,0,0},{0,0,0}};
-    //int[][] test = g.getMatrix();
-    g.printMatrix(test);
-    System.out.println(g.terminalTest(test));
-//    Game temp = new Game(1);
-//    printMatrix(temp.getMatrix());
+	  Game test = new Game(2);
+	  classBot bot = new minimax(test);
+	  test.printMatrix(test.getMatrix());
+	  while(true) {
+		  test.setMatrix(test.result(test.getMatrix(), test.takeInput(test.actions(test.getMatrix())), test.getPlayer()));
+		  test.turn();
+		  test.printMatrix(test.getMatrix());
+
+		  int num = bot.play();
+		  test.setMatrix(test.result(test.getMatrix(), num, test.getPlayer()));
+		  test.turn();
+		  System.out.println("Bot played " + num);
+		  test.printMatrix(test.getMatrix());
+
+		  System.out.println("\n\n");
+	  }
+
 
   } //end main
 

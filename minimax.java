@@ -77,7 +77,7 @@ public class minimax extends classBot {
 	  if(util == 0) {
 		  return 0;
 	  } else {
-		  if(util == board.getPlayer()) {
+		  if(util == 1) {
 			  return 1;
 		  } else {
 			  return -1;
