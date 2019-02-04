@@ -1,3 +1,4 @@
+package connect4;
 
 public class minimax extends classBot {
 
@@ -39,7 +40,7 @@ public class minimax extends classBot {
 		player = 1;
 	}
 	
-	int util = board.terminalTest(state, board.getLen());
+	int util = board.terminalTest(state);
 	
 	if(util != 3) {
 	  if(util == 0) {
@@ -72,7 +73,7 @@ public class minimax extends classBot {
 	  player = 1;
   }
   
-  int util = board.terminalTest(state, board.getLen());
+  int util = board.terminalTest(state);
   
 	if(util != 3) {
 	  if(util == 0) {
