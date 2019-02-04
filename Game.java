@@ -7,12 +7,39 @@ public class Game {
   private int player;
   private int len;
   public static void main(String[] args)  {
-    // int[][] test = {{2,1,2,1,2,1,2},{1,1,2,1,2,1,2},{2,2,1,2,1,1,1},{1,1,1,2,1,1,1},{2,1,2,1,2,2,2},{1,2,2,1,2,1,1}};
-    // printMatrix(test);
-    // System.out.println(terminalTest(test, 4));
-//    Game temp = new Game(1);
-//    printMatrix(temp.getMatrix());
+	  Game test = new Game(1);
+	  classBot bot = new minimax(test);
+	  test.printMatrix(test.getMatrix());
+	  System.out.println("\n\n\n");
+	  
+	  test.setMatrix(test.result(test.getMatrix(), 1, 1));
 
+	  test.turn();
+	  test.printMatrix(test.getMatrix());
+	  System.out.println("\n\n\n");
+	  
+
+//	  System.out.println(test.terminalTest(test.getMatrix()));
+	  
+	  test.setMatrix(test.result(test.getMatrix(), bot.play(), test.player));
+	  test.turn();
+	  test.printMatrix(test.getMatrix());
+	  System.out.println("\n\n\n");
+//	  
+	  test.setMatrix(test.result(test.getMatrix(), 1, test.player));
+	  test.turn();
+	  test.printMatrix(test.getMatrix());
+	  System.out.println("\n\n\n");
+//	  
+	  test.setMatrix(test.result(test.getMatrix(), bot.play(), test.player));
+	  test.turn();
+	  test.printMatrix(test.getMatrix());
+	  System.out.println("\n\n\n");
+	  
+	  
+	  test.setMatrix(test.result(test.getMatrix(), 1, 1));
+	  test.printMatrix(test.getMatrix());
+	  System.out.println(test.terminalTest(test.getMatrix()));
 
   } //end main
 
@@ -84,7 +111,7 @@ public class Game {
     return list;
   } //end actions
 
-  public int terminalTest(int[][] state, int len) { // to check if we are at a terminal state
+  public int terminalTest(int[][] state) { // to check if we are at a terminal state
     int width = state[0].length;
     int height = state.length;
     boolean full = true;
@@ -96,75 +123,78 @@ public class Game {
       }
     }
 
-    for(int i = 0; i <= height - len; i++) {
-      for(int j = 0; j <= width - len; j++) {
-        for(int k = 0; k < len; k++) {
-          temp.add(state[i + k][j]);
-        }
-        if(terminalHelp(temp)) {
-          i = height - len;
-          j = width - len;
-          break;
-        }
-        temp.clear();
-
-        for(int k = 0; k < len; k++) {
-          temp.add(state[i][j + k]);
-        }
-        if(terminalHelp(temp)) {
-          i = height - len;
-          j = width - len;
-          break;
-        }
-        temp.clear();
-
-        for(int k = 0; k < len; k++) {
-          temp.add(state[i + k][j + k]);
-        }
-        if(terminalHelp(temp)) {
-          i = height - len + 1;
-          j = width - len + 1;
-          break;
-        }
-        temp.clear();
-      }
+    for(int i = 0; i <= height - this.len; i++) {
+    	for(int j = 0; j < width; j++) {
+    		for(int k = 0; k < this.len; k++) {
+    			temp.add(state[i + k][j]);
+    		}
+    		if(terminalHelp(temp)) {
+    			i = height;
+    			j = width;
+    			break;
+    		}
+    		temp.clear();
+    	}
     }
-
     if(!temp.isEmpty()) {
-      return temp.get(0);
+    	return temp.get(0);
     }
-
-    for(int i = 0; i <= height - len; i++) {
-      for(int j = width - 1; j >= len - 1; j--) {
-        for(int k = 0; k < len; k++) {
-          temp.add(state[i + k][j - k]);
-        }
-        if(terminalHelp(temp)) {
-          i = height - len + 1;
-          j = 0;
-          break;
-        }
-        temp.clear();
-
-        for(int k = 0; k < len; k++) {
-          temp.add(state[i + k][j]);
-        }
-        if(terminalHelp(temp)) {
-          i = height - len + 1;
-          j = 0;
-          break;
-        }
-        temp.clear();
-      }
+    
+    for(int i = 0; i < height; i++) {
+    	for(int j = 0; j <= width - this.len; j++) {
+    		for(int k = 0; k < this.len; k++) {
+    			temp.add(state[i][j + k]);
+    		}
+    		if(terminalHelp(temp)) {
+    			i = height;
+    			j = width;
+    			break;
+    		}
+    		temp.clear();
+    	}
     }
-
     if(!temp.isEmpty()) {
-      return temp.get(0);
+    	return temp.get(0);
     }
+    
+    for(int i = 0; i <= height - this.len; i++) {
+    	for(int j = 0; j <= width - this.len; j++) {
+    		for(int k = 0; k < this.len; k++) {
+    			temp.add(state[i + k][j + k]);
+    		}
+    		if(terminalHelp(temp)) {
+    			i = height - this.len;
+    			j = width;
+    			break;
+    		}
+    		temp.clear();
+    	}
+    }
+    if(!temp.isEmpty()) {
+    	return temp.get(0);
+    }
+    
+    for(int i = 0; i <= height - this.len; i++) {
+    	for(int j = width - 1; j >= this.len - 1; j--) {
+    		for(int k = 0; k < this.len; k++) {
+    			temp.add(state[i + k][j - k]);
+    		}
+    		if(terminalHelp(temp)) {
+    			i = height;
+    			j = 0;
+    			break;
+    		}
+    		temp.clear();
+    	}
+    }
+    if(!temp.isEmpty()) {
+    	return temp.get(0);
+    }
+
     if(full) {
       return 0;
     }
-    //for(int i = 0; i < width)
+
     return 3;
   }
 
