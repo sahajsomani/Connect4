@@ -7,39 +7,61 @@ public class Game {
   private int player;
   private int len;
   public static void main(String[] args)  {
-	  Game test = new Game(3);
-	  classBot bot = new heuristic(test);
-	  test.printMatrix(test.getMatrix());
-	  while(true) {
-		  test.setMatrix(test.result(test.getMatrix(), test.takeInput(test.actions(test.getMatrix())), test.getPlayer()));
-		  test.turn();
-		  test.printMatrix(test.getMatrix());
-		  
-		  int num = bot.play();
-		  System.out.println("Bot played " + num);
-		  System.out.println("States visited " + bot.getCounter());
-		  test.setMatrix(test.result(test.getMatrix(), num, test.getPlayer()));
-		  test.turn();
+	    int[] inputs = introduction();
+		  Game test = new Game(inputs[0]);
+	    classBot bot = new heuristic(test);
+	    if(inputs[1] == 1) {
+	      bot = new randomPlayer(test);
+	    } else if(inputs[1] == 2) {
+	      bot = new minimax(test);
+	    } else if(inputs[1] == 3) {
+	      bot = new abpruning(test);
+	    }
+	     // color left - inputs[2]
+	    System.out.println("\n\n");
+	    if(inputs[2] == 1) {
+	    	test.printMatrix(test.getMatrix());
+	    }
+		  while(true) {
+			  if(inputs[2] == 1) {
+				  System.out.println("Your move.");
+				  test.setMatrix(test.result(test.getMatrix(), test.takeInput(test.actions(test.getMatrix())), test.getPlayer()));
+				  test.printMatrix(test.getMatrix());
+				  if(test.terminalTest(test.getMatrix()) == test.getPlayer()) {
+					  System.out.println("Congratulations! You won the game.");
+					  break;
+				  }
+				  test.turn();
+			  }
 
-		  test.printMatrix(test.getMatrix());
-		  
-		  System.out.println("\n\n");
+
+			  System.out.println("\n\n");
+			  long start = new Date().getTime();
+			  int num = bot.play();
+			  long end = new Date().getTime() - start;
+			  System.out.print("Bot played " + num + ".");
+			  System.out.println(" States visited " + bot.getCounter() + ". Time elapsed: " + end + " miliseconds.");
+			  test.setMatrix(test.result(test.getMatrix(), num, test.getPlayer()));
+			  test.printMatrix(test.getMatrix());
+			  if(test.terminalTest(test.getMatrix()) == 1 || test.terminalTest(test.getMatrix()) == 2) {
+				  System.out.println("You lost!");
+				  break;
+			  }
+			  test.turn();
+			  System.out.println("\n\n");
+			  
+			  if(inputs[2] == 2) {
+				  System.out.println("Your move.");
+				  test.setMatrix(test.result(test.getMatrix(), test.takeInput(test.actions(test.getMatrix())), test.getPlayer()));
+				  test.printMatrix(test.getMatrix());
+				  if(test.terminalTest(test.getMatrix()) == test.getPlayer()) {
+					  System.out.println("Congratulations! You won the game.");
+					  break;
+				  }
+				  test.turn();
+			  }
+		  }
 	  }
-
-	  
-//	  test.printMatrix(test.getMatrix());
-//	  test.setMatrix(test.result(test.getMatrix(), 0, test.getPlayer()));
-//	  test.setMatrix(test.result(test.getMatrix(), 0, test.getPlayer()));
-////	  test.setMatrix(test.result(test.getMatrix(), 2, 2));
-////	  test.setMatrix(test.result(test.getMatrix(), 2, 2));
-//	  test.setMatrix(test.result(test.getMatrix(), 1, 2));
-//	  test.setMatrix(test.result(test.getMatrix(), 1, 2));
-//
-//
-//	  
-//	  test.printMatrix(test.getMatrix());
-//	  System.out.println(test.nonTerminal(test.getMatrix()));
-  } //end main
 
   public Game(int input){
     this.player = 1; // player 1 = human, 2 = computer
@@ -416,4 +438,41 @@ public class Game {
 	  return temp;
   } //end result
 
+  public static int[] introduction() {
+	    while(true) {
+	      System.out.println("Welcome to Connect 4 by Sahaj and Nikita");
+	      System.out.println("Choose your game:");
+	      System.out.println("1. Tiny 3x3x3 Connect-Three");
+	      System.out.println("2. Wider 3x5x3 Connect-Three");
+	      System.out.println("3. Standard 6x7x4 Connect-Four");
+	      Scanner scan = new Scanner(System.in);
+	      System.out.print("Your choice? ");
+	      int gameType = scan.nextInt();
+
+	      System.out.println("");
+	      System.out.println("Choose your opponent:");
+	      System.out.println("1. An agent that plays randomly");
+	      System.out.println("2. An agent that uses MINIMAX");
+	      System.out.println("3. An agent that uses MINIMAX with alpha-beta pruning");
+	      System.out.println("4. An agent that uses H-MINIMAX");
+	      System.out.print("Your choice? ");
+	      int playerType = scan.nextInt();
+
+	      System.out.println("");
+	      System.out.println("Do you want to play X(enter 1) or O(enter 2). X goes first.");
+	      System.out.print("Your choice? ");
+	      int color = scan.nextInt();
+	      int[] inputs = {gameType, playerType, color};
+	      if(gameType >= 1 && gameType <= 3) {
+	        if(playerType >= 1 && playerType <= 4) {
+	          if(color >= 1 && color <= 2) {
+	            return inputs;
+	          }
+	        }
+	      }
+	      System.out.println("There was a problem with your inputs, please try again");
+	    }
+
+	  }
+  
 } //end class
