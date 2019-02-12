@@ -1,5 +1,8 @@
+package connect4;
+
 public abstract class classBot {
   public Game board;
+  public long counter;
 
   public classBot(Game board) {
     this.board = board;
@@ -11,6 +14,10 @@ public abstract class classBot {
 
   public void setBoard(Game board) {
     this.board = board;
+  }
+  
+  public long getCounter() {
+	  return counter;
   }
 
   public abstract int play();
