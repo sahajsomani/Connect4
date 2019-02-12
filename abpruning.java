@@ -1,9 +1,10 @@
+package connect4;
 
 public class abpruning extends classBot{
 	public abpruning(Game board) {
 		super(board);
 	}
-
+	
 	public int play() {
 		int move = -1;
 	    int[][] state = new int[board.getMatrix().length][board.getMatrix()[0].length];
@@ -15,45 +16,50 @@ public class abpruning extends classBot{
 	      }
 	      boolean[] actions = board.actions(state);
 	      int player = board.getPlayer();
-
-	      int v = Integer.MIN_VALUE;
-	      int alpha = Integer.MIN_VALUE;
-	      int beta = Integer.MAX_VALUE;
+	      
+	      double v = -10000;
+	      double alpha = -10000;
+	      double beta = 10000;
 	      counter = 0;
 	      for(int i = 0; i < actions.length; i++) {
 	      	if(actions[i]) {
-	      		int temp = minValue(board.result(state, i, player), alpha, beta);
+	      		double temp = minValue(board.result(state, i, player), alpha, beta);
 	      		if(temp >= v) {
 	      			v = temp;
 	      			move = i;
 	      		} if(v > beta) {
 	      			beta = v;
-	      		}
+	      		} 
 	      	}
 	      }
+//	      System.out.println(v);
 		return move;
 	}
-
-	public int maxValue(int[][] state, int alpha, int beta) {
+	
+	public double maxValue(int[][] state, double alpha, double beta) {	
 		counter++;
 		int util = board.terminalTest(state);
-
+		
 		if(util != 3) {
 		  if(util == 0) {
 			  return 0;
 		  } else {
+//			  board.printMatrix(state);
+//			  System.out.println(board.depth(state));
 		    if(util == board.getPlayer()) {
-		    	return 1;
+//		    	System.out.println((1.0 / (double)board.depth(state)) + "\n\n");
+		    	return (1.0 / (double)board.depth(state));
 		    } else {
-		    	return -1;
+//		    	System.out.println((-1.0 / (double)board.depth(state)) + "\n\n");
+		    	return (-1.0 / (double)board.depth(state));
 		    }
 		  }
 		}
-		int v = Integer.MIN_VALUE;
+		double v = -10000;
 		boolean[] actions = board.actions(state);
 		for(int i = 0; i < actions.length; i++) {
 		  if(actions[i]) {
-		    int temp = minValue(board.result(state, i, board.getPlayer()), alpha, beta);
+		    double temp = minValue(board.result(state, i, board.getPlayer()), alpha, beta);
 		    if(temp >= v) {
 		    	v = temp;
 		    } if(v > alpha) {
@@ -66,27 +72,31 @@ public class abpruning extends classBot{
 		}
 		return v;
 	  } //end maxValue
-
-	public int minValue(int[][] state, int alpha, int beta) {
+	
+	public double minValue(int[][] state, double alpha, double beta) {
 		counter++;
 		  int util = board.terminalTest(state);
-
+	  
 		if(util != 3) {
 		  if(util == 0) {
 			  return 0;
 		  } else {
+//			  board.printMatrix(state);
+//			  System.out.println(board.depth(state));
 			  if(util == board.getPlayer()) {
-				  return 1;
+//				  System.out.println((1.0 / (double)board.depth(state)) + "\n\n");
+				  return (1.0 / (double)board.depth(state));
 			  } else {
-				  return -1;
+//				  System.out.println((-1.0 / (double)board.depth(state)) + "\n\n");
+				  return (-1.0 / (double)board.depth(state));
 			  }
 		  }
 		}
-		int v = Integer.MAX_VALUE;
+		double v = 10000;
 		boolean[] actions = board.actions(state);
 		for(int i = 0; i < actions.length; i++) {
 		  if(actions[i]) {
-		    int temp = maxValue(board.result(state, i, flip(board.getPlayer())), alpha, beta);
+		    double temp = maxValue(board.result(state, i, flip(board.getPlayer())), alpha, beta);
 		    if(temp <= v) {
 		    	v = temp;
 		    } if(v < beta) {
