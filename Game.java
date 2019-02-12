@@ -8,7 +8,7 @@ public class Game {
   private int len;
   public static void main(String[] args)  {
 	  Game test = new Game(2);
-	  classBot bot = new minimax(test);
+	  classBot bot = new heuristic(test);
 	  test.printMatrix(test.getMatrix());
 	  while(true) {
 		  test.setMatrix(test.result(test.getMatrix(), test.takeInput(test.actions(test.getMatrix())), test.getPlayer()));
@@ -16,15 +16,28 @@ public class Game {
 		  test.printMatrix(test.getMatrix());
 		  
 		  int num = bot.play();
+		  System.out.println("Bot played " + num);
+		  System.out.println("States visited " + bot.getCounter());
 		  test.setMatrix(test.result(test.getMatrix(), num, test.getPlayer()));
 		  test.turn();
-		  System.out.println("Bot played " + num);
+
 		  test.printMatrix(test.getMatrix());
 		  
 		  System.out.println("\n\n");
 	  }
 	  
-
+//	  test.printMatrix(test.getMatrix());
+//	  test.setMatrix(test.result(test.getMatrix(), 0, test.getPlayer()));
+//	  test.setMatrix(test.result(test.getMatrix(), 0, test.getPlayer()));
+////	  test.setMatrix(test.result(test.getMatrix(), 2, 2));
+////	  test.setMatrix(test.result(test.getMatrix(), 2, 2));
+//	  test.setMatrix(test.result(test.getMatrix(), 1, 2));
+//	  test.setMatrix(test.result(test.getMatrix(), 1, 2));
+//
+//
+//	  
+//	  test.printMatrix(test.getMatrix());
+//	  System.out.println(test.nonTerminal(test.getMatrix()));
   } //end main
 
   public Game(int input){
@@ -40,6 +53,10 @@ public class Game {
       a = 3;
       b = 5;
       len = 3;
+    } else if(input == 4) {
+    	a = 4;
+    	b = 4;
+    	len = 4;
     }
     this.matrix = new int[a][b];
     for(int i = 0; i < a; i++) {
@@ -95,6 +112,115 @@ public class Game {
     return list;
   } //end actions
 
+  public double nonTerminal(int[][] state) {
+	  double pos = 0;
+	  double neg = 0;
+	  int width = state[0].length;
+	    int height = state.length;
+	    ArrayList<Integer> temp = new ArrayList<Integer>();
+
+	    for(int i = 0; i <= height - this.len; i++) {
+	    	for(int j = 0; j < width; j++) {
+	    		for(int k = 0; k < this.len; k++) {
+	    			temp.add(state[i + k][j]);
+	    		}
+//	    		System.out.println(temp);
+	    		double value = nonTerminalHelp(temp);
+//	    		System.out.println(value);
+	    		if(value > 0) {
+	    			pos += value;
+	    		} else {
+	    			neg += value;
+	    		}
+	    		temp.clear();
+	    	}
+	    }
+	    
+	    for(int i = 0; i < height; i++) {
+	    	for(int j = 0; j <= width - this.len; j++) {
+	    		for(int k = 0; k < this.len; k++) {
+	    			temp.add(state[i][j + k]);
+	    		}
+//	    		System.out.println(temp);
+	    		double value = nonTerminalHelp(temp);
+//	    		System.out.println(value);
+	    		if(value > 0) {
+	    			pos += value;
+	    		} else {
+	    			neg += value;
+	    		}
+	    		temp.clear();
+	    	}
+	    }
+	    
+	    for(int i = 0; i <= height - this.len; i++) {
+	    	for(int j = 0; j <= width - this.len; j++) {
+	    		for(int k = 0; k < this.len; k++) {
+	    			temp.add(state[i + k][j + k]);
+	    		}
+//	    		System.out.println(temp);
+	    		double value = nonTerminalHelp(temp);
+//	    		System.out.println(value);
+	    		if(value > 0) {
+	    			pos += value;
+	    		} else {
+	    			neg += value;
+	    		}
+	    		temp.clear();
+	    	}
+	    }
+	    
+	    for(int i = 0; i <= height - this.len; i++) {
+	    	for(int j = width - 1; j >= this.len - 1; j--) {
+	    		for(int k = 0; k < this.len; k++) {
+	    			temp.add(state[i + k][j - k]);
+	    		}
+//	    		System.out.println(temp);
+	    		double value = nonTerminalHelp(temp);
+//	    		System.out.println(value);
+	    		if(value > 0) {
+	    			pos += value;
+	    		} else {
+	    			neg += value;
+	    		}
+	    		temp.clear();
+	    	}
+	    }
+	    
+	    double total = Math.abs(neg) + pos;
+//	    System.out.println("\n\n" + neg + " " + pos + " " + total);
+	    if(total == 0) {
+	    	return 0;
+	    } else {
+	    	return (pos + neg) / (1.5 * total);
+	    }
+  }
+  
+  private double nonTerminalHelp(ArrayList<Integer> array) {
+	  int X = 0;
+	  int O = 0;
+	  int zero = 0;
+	  for(int i = 0; i < array.size(); i++) {
+		  if(array.get(i) == 1) {
+			  X++;
+		  } else if(array.get(i) == 0) {
+			  zero++;
+		  } else {
+			  O++;
+		  }
+	  }
+	  if(X == array.size() - 1 && zero == 1) {
+		  return (double)(array.size() - 1) / (double)(array.size());
+	  } else if(array.size() > 3 && X == array.size() - 2 && zero == 2) {
+		  return (double)(array.size() - 2) / (double)(array.size());
+	  } else if(O == array.size() - 1 && zero == 1) {
+		  return -(double)(array.size() - 1) / (double)(array.size());
+	  } else if(array.size() > 3 && O == array.size() - 2 && zero == 2) {
+		  return -(double)(array.size() - 2) / (double)(array.size());
+	  }
+	  return 0;
+  }
+  
   public int terminalTest(int[][] state) { // to check if we are at a terminal state
     int width = state[0].length;
     int height = state.length;
@@ -191,6 +317,18 @@ public class Game {
     return true;
   }
 
+  public int depth(int[][] state) {
+	  int count = 0;
+	  for(int i = 0; i < state.length; i++) {
+		  for(int j = 0; j < state[i].length; j++) {
+			  if(state[i][j] == 1 || state[i][j] == 2) {
+				  count++;
+			  }
+		  }
+	  }
+	  return count;
+  }
+  
   public void printMatrix(int[][] state) {
     int rows = state.length;
     int cols = state[0].length;
