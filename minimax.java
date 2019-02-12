@@ -1,4 +1,3 @@
-package connect4;
 
 public class minimax extends classBot {
 	private long count = 0;
@@ -17,7 +16,7 @@ public class minimax extends classBot {
     }
     boolean[] actions = board.actions(state);
     int player = board.getPlayer();
-    
+
     int move = -1;
     int v = Integer.MIN_VALUE;
     System.out.println(board.getLen());
@@ -30,13 +29,13 @@ public class minimax extends classBot {
     		}
     	}
     }
-    
+
     return move;
   } //end play
 
-  public int maxValue(int[][] state) {	
+  public int maxValue(int[][] state) {
 	int util = board.terminalTest(state);
-	
+
 	if(util != 3) {
 	  if(util == 0) {
 		  return 0;
@@ -63,7 +62,7 @@ public class minimax extends classBot {
 
   public int minValue(int[][] state) {
 	  int util = board.terminalTest(state);
-  
+
 	if(util != 3) {
 	  if(util == 0) {
 		  return 0;
