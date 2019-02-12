@@ -1,7 +1,7 @@
 package connect4;
 
 public class heuristic extends classBot {
-	private int depth = 8;
+	private int depth = 9;
 	public heuristic(Game board) {
 		super(board);
 	}
