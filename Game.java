@@ -19,8 +19,8 @@ public class Game {
       // left blank intentionally
       // if input is not 1,2 or 3 then it has to be 4
     }
-     // color left
-     
+     // color left - inputs[2]
+
 	  test.printMatrix(test.getMatrix());
 	  while(true) {
 		  test.setMatrix(test.result(test.getMatrix(), test.takeInput(test.actions(test.getMatrix())), test.getPlayer()));
