@@ -1,3 +1,4 @@
+package connect4;
 
 import java.util.*;
 
@@ -6,27 +7,14 @@ public class Game {
   private int player;
   private int len;
   public static void main(String[] args)  {
-    int[] inputs = introduction();
-	  Game test = new Game(inputs[0]);
-    classBot bot = new heuristic(test);
-    if(inputs[1] == 1) {
-      classBot bot = new randomPlayer(test);
-    } else if(inputs[1] == 2) {
-      classBot bot = new minimax(test);
-    } else if(inputs[1] == 3) {
-      classBot bot = new abpruning(test);
-    } else {
-      // left blank intentionally
-      // if input is not 1,2 or 3 then it has to be 4
-    }
-     // color left - inputs[2]
-
+	  Game test = new Game(3);
+	  classBot bot = new heuristic(test);
 	  test.printMatrix(test.getMatrix());
 	  while(true) {
 		  test.setMatrix(test.result(test.getMatrix(), test.takeInput(test.actions(test.getMatrix())), test.getPlayer()));
 		  test.turn();
 		  test.printMatrix(test.getMatrix());
-
+		  
 		  int num = bot.play();
 		  System.out.println("Bot played " + num);
 		  System.out.println("States visited " + bot.getCounter());
@@ -34,10 +22,11 @@ public class Game {
 		  test.turn();
 
 		  test.printMatrix(test.getMatrix());
-
+		  
 		  System.out.println("\n\n");
 	  }
 
+	  
 //	  test.printMatrix(test.getMatrix());
 //	  test.setMatrix(test.result(test.getMatrix(), 0, test.getPlayer()));
 //	  test.setMatrix(test.result(test.getMatrix(), 0, test.getPlayer()));
@@ -47,10 +36,9 @@ public class Game {
 //	  test.setMatrix(test.result(test.getMatrix(), 1, 2));
 //
 //
-//
+//	  
 //	  test.printMatrix(test.getMatrix());
 //	  System.out.println(test.nonTerminal(test.getMatrix()));
-
   } //end main
 
   public Game(int input){
@@ -66,11 +54,11 @@ public class Game {
       a = 3;
       b = 5;
       len = 3;
-    } else {
-      // left empty intentionally
+    } else if(input == 4) {
+    	a = 4;
+    	b = 4;
+    	len = 4;
     }
-    // removed the else if statement for 4x4 matrix
-
     this.matrix = new int[a][b];
     for(int i = 0; i < a; i++) {
       for(int j = 0; j < b; j++) {
@@ -102,7 +90,7 @@ public class Game {
   public void setPlayer(int player) {
     this.player = player;
   }
-
+  
   public void turn() {
 	  if(this.player == 1) {
 		  this.player = 2;
@@ -148,7 +136,7 @@ public class Game {
 	    		temp.clear();
 	    	}
 	    }
-
+	    
 	    for(int i = 0; i < height; i++) {
 	    	for(int j = 0; j <= width - this.len; j++) {
 	    		for(int k = 0; k < this.len; k++) {
@@ -165,7 +153,7 @@ public class Game {
 	    		temp.clear();
 	    	}
 	    }
-
+	    
 	    for(int i = 0; i <= height - this.len; i++) {
 	    	for(int j = 0; j <= width - this.len; j++) {
 	    		for(int k = 0; k < this.len; k++) {
@@ -182,7 +170,7 @@ public class Game {
 	    		temp.clear();
 	    	}
 	    }
-
+	    
 	    for(int i = 0; i <= height - this.len; i++) {
 	    	for(int j = width - 1; j >= this.len - 1; j--) {
 	    		for(int k = 0; k < this.len; k++) {
@@ -199,7 +187,7 @@ public class Game {
 	    		temp.clear();
 	    	}
 	    }
-
+	    
 	    double total = Math.abs(neg) + pos;
 //	    System.out.println("\n\n" + neg + " " + pos + " " + total);
 	    if(total == 0) {
@@ -208,7 +196,7 @@ public class Game {
 	    	return (pos + neg) / (1.5 * total);
 	    }
   }
-
+  
   private double nonTerminalHelp(ArrayList<Integer> array) {
 	  int X = 0;
 	  int O = 0;
@@ -233,7 +221,7 @@ public class Game {
 	  }
 	  return 0;
   }
-
+  
   public int terminalTest(int[][] state) { // to check if we are at a terminal state
     int width = state[0].length;
     int height = state.length;
@@ -262,7 +250,7 @@ public class Game {
     if(!temp.isEmpty()) {
     	return temp.get(0);
     }
-
+    
     for(int i = 0; i < height; i++) {
     	for(int j = 0; j <= width - this.len; j++) {
     		for(int k = 0; k < this.len; k++) {
@@ -279,7 +267,7 @@ public class Game {
     if(!temp.isEmpty()) {
     	return temp.get(0);
     }
-
+    
     for(int i = 0; i <= height - this.len; i++) {
     	for(int j = 0; j <= width - this.len; j++) {
     		for(int k = 0; k < this.len; k++) {
@@ -296,7 +284,7 @@ public class Game {
     if(!temp.isEmpty()) {
     	return temp.get(0);
     }
-
+    
     for(int i = 0; i <= height - this.len; i++) {
     	for(int j = width - 1; j >= this.len - 1; j--) {
     		for(int k = 0; k < this.len; k++) {
@@ -341,7 +329,7 @@ public class Game {
 	  }
 	  return count;
   }
-
+  
   public void printMatrix(int[][] state) {
     int rows = state.length;
     int cols = state[0].length;
@@ -418,7 +406,7 @@ public class Game {
 			  temp[i][j] = state[i][j];
 		  }
 	  }
-
+	  
 	  for(int i = temp.length - 1; i >= 0; i--) {
 		  if(temp[i][action] == 0) {
 			  temp[i][action] = player;
@@ -427,42 +415,5 @@ public class Game {
 	  }
 	  return temp;
   } //end result
-
-  public static int[] introduction() {
-    while(true) {
-      System.out.println("Welcome to Connect 4 by Sahaj and Nikita");
-      System.out.println("Choose your game:");
-      System.out.println("1. Tiny 3x3x3 Connect-Three");
-      System.out.println("2. Wider 3x5x3 Connect-Three");
-      System.out.println("3. Standard 6x7x4 Connect-Four");
-      Scanner scan = new Scanner(System.in);
-      System.out.print("Your choice? ");
-      int gameType = scan.nextInt();
-
-      System.out.println("");
-      System.out.println("Choose your opponent:");
-      System.out.println("1. An agent that plays randomly");
-      System.out.println("2. An agent that uses MINIMAX");
-      System.out.println("3. An agent that uses MINIMAX with alpha-beta pruning");
-      System.out.println("4. An agent that uses H-MINIMAX");
-      System.out.print("Your choice? ");
-      int playerType = scan.nextInt();
-
-      System.out.println("");
-      System.out.println("Do you want to play X(enter 1) or O(enter 2). X goes first.");
-      System.out.print("Your choice? ");
-      int color = scan.nextInt();
-      int[] inputs = {gameType, playerType, color};
-      if(gameType >= 1 && gameType <= 3) {
-        if(playerType >= 1 && playerType <= 4) {
-          if(color >=1 && color <= 2) {
-            return inputs;
-          }
-        }
-      }
-      System.out.println("There was a problem with your inputs, please try again");
-    }
-
-  } //end introduction
 
 } //end class
