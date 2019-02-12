@@ -8,7 +8,7 @@ public class minimax extends classBot {
   public int play() { //copying the game board matrix
     int[][] state = new int[board.getMatrix().length][board.getMatrix()[0].length];
     int move = -1;
-    
+
     for(int i = 0; i < board.getMatrix().length; i++) {
       for(int j = 0; j < board.getMatrix()[0].length; j++) {
         state[i][j] = board.getMatrix()[i][j];
@@ -16,17 +16,10 @@ public class minimax extends classBot {
     }
     boolean[] actions = board.actions(state);
     int player = board.getPlayer();
-<<<<<<< HEAD
-
-    int move = -1;
-    int v = Integer.MIN_VALUE;
-    System.out.println(board.getLen());
-=======
     int depth = board.depth(state);
-    
+
     counter = 0;
     int[] v = {Integer.MIN_VALUE, depth};
->>>>>>> acf381fd094e63083a02cbcb7f973845b783bdf5
     for(int i = 0; i < actions.length; i++) {
     	if(actions[i]) {
     		int[] temp = minValue(board.result(state, i, player));
@@ -52,18 +45,12 @@ public class minimax extends classBot {
     return move;
   } //end play
 
-<<<<<<< HEAD
-  public int maxValue(int[][] state) {
-	int util = board.terminalTest(state);
-
-=======
-  public int[] maxValue(int[][] state) {	
+  public int[] maxValue(int[][] state) {
 	  counter++;
 	int util = board.terminalTest(state);
 	int depth = board.depth(state);
 	int[] result = {0, depth};
-	
->>>>>>> acf381fd094e63083a02cbcb7f973845b783bdf5
+
 	if(util != 3) {
 	  if(util == 0) {
 		  return result;
@@ -104,13 +91,9 @@ public class minimax extends classBot {
   public int[] minValue(int[][] state) {
 	  counter++;
 	  int util = board.terminalTest(state);
-<<<<<<< HEAD
-
-=======
 	  int depth = board.depth(state);
 	  int[] result = {0, depth};
-  
->>>>>>> acf381fd094e63083a02cbcb7f973845b783bdf5
+
 	if(util != 3) {
 	  if(util == 0) {
 		  return result;

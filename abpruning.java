@@ -1,10 +1,9 @@
-package connect4;
 
 public class abpruning extends classBot{
 	public abpruning(Game board) {
 		super(board);
 	}
-	
+
 	public int play() {
 		int move = -1;
 	    int[][] state = new int[board.getMatrix().length][board.getMatrix()[0].length];
@@ -16,7 +15,7 @@ public class abpruning extends classBot{
 	      }
 	      boolean[] actions = board.actions(state);
 	      int player = board.getPlayer();
-	      
+
 	      int v = Integer.MIN_VALUE;
 	      int alpha = Integer.MIN_VALUE;
 	      int beta = Integer.MAX_VALUE;
@@ -29,16 +28,16 @@ public class abpruning extends classBot{
 	      			move = i;
 	      		} if(v > beta) {
 	      			beta = v;
-	      		} 
+	      		}
 	      	}
 	      }
 		return move;
 	}
-	
-	public int maxValue(int[][] state, int alpha, int beta) {	
+
+	public int maxValue(int[][] state, int alpha, int beta) {
 		counter++;
 		int util = board.terminalTest(state);
-		
+
 		if(util != 3) {
 		  if(util == 0) {
 			  return 0;
@@ -67,11 +66,11 @@ public class abpruning extends classBot{
 		}
 		return v;
 	  } //end maxValue
-	
+
 	public int minValue(int[][] state, int alpha, int beta) {
 		counter++;
 		  int util = board.terminalTest(state);
-	  
+
 		if(util != 3) {
 		  if(util == 0) {
 			  return 0;
