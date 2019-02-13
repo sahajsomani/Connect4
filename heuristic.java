@@ -18,7 +18,7 @@ public class heuristic extends classBot {
 	      }
 	      boolean[] actions = board.actions(state);
 	      int player = board.getPlayer();
-	      if(board.depth(state) > 20) {
+	      if(board.depth(state) > 25) {
 	    	  depth = 1000;
 	      }
 	      
