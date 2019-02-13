@@ -7,22 +7,21 @@ public class Game {
   private int player;
   private int len;
   public static void main(String[] args)  {
-	    int[] inputs = introduction();
+	    int[] inputs = introduction(); // user inputs
 		  Game test = new Game(inputs[0]);
 	    classBot bot = new heuristic(test);
-	    if(inputs[1] == 1) {
+	    if(inputs[1] == 1) {//choosing the bot
 	      bot = new randomPlayer(test);
 	    } else if(inputs[1] == 2) {
 	      bot = new minimax(test);
 	    } else if(inputs[1] == 3) {
 	      bot = new abpruning(test);
 	    }
-	     // color left - inputs[2]
 	    System.out.println("\n\n");
 	    if(inputs[2] == 1) {
 	    	test.printMatrix(test.getMatrix());
 	    }
-		  while(true) {
+		  while(true) {//where the actual game takes place
 			  if(inputs[2] == 1) {
 				  System.out.println("Your move.");
 				  test.setMatrix(test.result(test.getMatrix(), test.takeInput(test.actions(test.getMatrix())), test.getPlayer()));
@@ -61,7 +60,7 @@ public class Game {
 				  test.turn();
 			  }
 		  }
-	  }
+	  } //end main
 
   public Game(int input){
     this.player = 1; // player 1 = human, 2 = computer
@@ -97,23 +96,23 @@ public class Game {
     this.matrix = matrix;
   } //end setMatrix
 
-  public int getLen() {
+  public int getLen() {//get the number of required stones to win
     return this.len;
   }
 
-  public void setLen(int len) {
+  public void setLen(int len) {//setting the length
     this.len = len;
   }
 
-  public int getPlayer() {
+  public int getPlayer() {//get current player
     return this.player;
   }
 
-  public void setPlayer(int player) {
+  public void setPlayer(int player) {//setting the current player
     this.player = player;
   }
   
-  public void turn() {
+  public void turn() {//flip the players
 	  if(this.player == 1) {
 		  this.player = 2;
 	  } else {
@@ -135,7 +134,9 @@ public class Game {
     return list;
   } //end actions
 
-  public double nonTerminal(int[][] state) {
+  public double nonTerminal(int[][] state) { //nonterminal utility function for the heuristic method.
+	  //this method scans all rows, columns and diagonals. If it finds that some player is missing one more tile to win the game it gives 
+	  //some positive value. if player X has 3 X's and one empty cell, gives a value of 0.6. Summs all these up and gives an average for a state. 
 	  double pos = 0;
 	  double neg = 0;
 	  int width = state[0].length;
@@ -217,9 +218,9 @@ public class Game {
 	    } else {
 	    	return (pos + neg) / (1.5 * total);
 	    }
-  }
+  }//non terminal end
   
-  private double nonTerminalHelp(ArrayList<Integer> array) {
+  private double nonTerminalHelp(ArrayList<Integer> array) {//help method for the nonterminal utility
 	  int X = 0;
 	  int O = 0;
 	  int zero = 0;
@@ -329,9 +330,9 @@ public class Game {
     }
 
     return 3;
-  }
+  }//terminal end
 
-  private boolean terminalHelp(ArrayList<Integer> array) {
+  private boolean terminalHelp(ArrayList<Integer> array) {//help method for terminal utility function
     for(int i = 0; i < array.size() - 1; i++) {
       if(array.get(i) != array.get(i + 1) || array.get(i) == 0) {
         return false;
@@ -352,7 +353,7 @@ public class Game {
 	  return count;
   }
   
-  public void printMatrix(int[][] state) {
+  public void printMatrix(int[][] state) {//print matrix method
     int rows = state.length;
     int cols = state[0].length;
 
@@ -390,7 +391,7 @@ public class Game {
     } //end i for loop
   } //end printMatrix
 
-  public int takeInput(boolean[] validActions) {
+  public int takeInput(boolean[] validActions) {//taking player input method
     Scanner scan = new Scanner(System.in);
     boolean check = true;
     int input = 0;
@@ -421,7 +422,7 @@ public class Game {
     return true;
   } //end validateHumanInput
 
-  public int[][] result(int[][] state, int action, int player) {
+  public int[][] result(int[][] state, int action, int player) {//result method. Takes matrix, the player and the action and outputs the result
 	  int[][] temp = new int[state.length][state[0].length];
 	  for(int i = 0; i < state.length; i++) {
 		  for(int j = 0; j < state[0].length; j++) {
@@ -438,7 +439,7 @@ public class Game {
 	  return temp;
   } //end result
 
-  public static int[] introduction() {
+  public static int[] introduction() {//intro method. 
 	    while(true) {
 	      System.out.println("Welcome to Connect 4 by Sahaj and Nikita");
 	      System.out.println("Choose your game:");
