@@ -1,6 +1,8 @@
+package connect4;
+
 import java.util.*;
 
-public class randomPlayer extends classBot{
+public class randomPlayer extends classBot{//random player bot. will choose a move until legal
 
   public randomPlayer(Game board) {
     super(board);
