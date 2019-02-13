@@ -8,7 +8,7 @@ public class Game {
   private int len;
   public static void main(String[] args)  {
 	    int[] inputs = introduction(); // user inputs
-		  Game test = new Game(inputs[0]);
+		Game test = new Game(inputs[0]);
 	    classBot bot = new heuristic(test);
 	    if(inputs[1] == 1) {//choosing the bot
 	      bot = new randomPlayer(test);
@@ -21,45 +21,8 @@ public class Game {
 	    if(inputs[2] == 1) {
 	    	test.printMatrix(test.getMatrix());
 	    }
-		  while(true) {//where the actual game takes place
-			  if(inputs[2] == 1) {
-				  System.out.println("Your move.");
-				  test.setMatrix(test.result(test.getMatrix(), test.takeInput(test.actions(test.getMatrix())), test.getPlayer()));
-				  test.printMatrix(test.getMatrix());
-				  if(test.terminalTest(test.getMatrix()) == test.getPlayer()) {
-					  System.out.println("Congratulations! You won the game.");
-					  break;
-				  }
-				  test.turn();
-			  }
-
-
-			  System.out.println("\n\n");
-			  long start = new Date().getTime();
-			  int num = bot.play();
-			  long end = new Date().getTime() - start;
-			  System.out.print("Bot played " + num + ".");
-			  System.out.println(" States visited " + bot.getCounter() + ". Time elapsed: " + end + " miliseconds.");
-			  test.setMatrix(test.result(test.getMatrix(), num, test.getPlayer()));
-			  test.printMatrix(test.getMatrix());
-			  if(test.terminalTest(test.getMatrix()) == 1 || test.terminalTest(test.getMatrix()) == 2) {
-				  System.out.println("You lost!");
-				  break;
-			  }
-			  test.turn();
-			  System.out.println("\n\n");
-			  
-			  if(inputs[2] == 2) {
-				  System.out.println("Your move.");
-				  test.setMatrix(test.result(test.getMatrix(), test.takeInput(test.actions(test.getMatrix())), test.getPlayer()));
-				  test.printMatrix(test.getMatrix());
-				  if(test.terminalTest(test.getMatrix()) == test.getPlayer()) {
-					  System.out.println("Congratulations! You won the game.");
-					  break;
-				  }
-				  test.turn();
-			  }
-		  }
+	    run(test, bot, inputs[2]);
+		  
 	  } //end main
 
   public Game(int input){
@@ -120,6 +83,57 @@ public class Game {
 	  }
   }
 
+  public static void run(Game test, classBot bot, int input) {
+	  while(true) {//where the actual game takes place
+		  if(input == 1) {
+			  System.out.println("Your move.");
+			  test.setMatrix(test.result(test.getMatrix(), test.takeInput(test.actions(test.getMatrix())), test.getPlayer()));
+			  test.printMatrix(test.getMatrix());
+			  if(test.terminalTest(test.getMatrix()) == test.getPlayer()) {
+				  System.out.println("Congratulations! You won the game.");
+				  break;
+			  } else if(test.terminalTest(test.getMatrix()) == 0) {
+				  System.out.println("Draw!");
+				  break;
+			  }
+			  test.turn();
+		  }
+
+
+		  System.out.println("\n\n");
+		  long start = new Date().getTime();
+		  int num = bot.play();
+		  long end = new Date().getTime() - start;
+		  System.out.print("Bot played " + num + ".");
+		  System.out.println(" States visited " + bot.getCounter() + ". Time elapsed: " + end + " miliseconds.");
+		  test.setMatrix(test.result(test.getMatrix(), num, test.getPlayer()));
+		  test.printMatrix(test.getMatrix());
+		  if(test.terminalTest(test.getMatrix()) == 1 || test.terminalTest(test.getMatrix()) == 2) {
+			  System.out.println("You lost!");
+			  break;
+		  } else if(test.terminalTest(test.getMatrix()) == 0) {
+			  System.out.println("Draw!");
+			  break;
+		  }
+		  test.turn();
+		  System.out.println("\n\n");
+		  
+		  if(input == 2) {
+			  System.out.println("Your move.");
+			  test.setMatrix(test.result(test.getMatrix(), test.takeInput(test.actions(test.getMatrix())), test.getPlayer()));
+			  test.printMatrix(test.getMatrix());
+			  if(test.terminalTest(test.getMatrix()) == test.getPlayer()) {
+				  System.out.println("Congratulations! You won the game.");
+				  break;
+			  } else if(test.terminalTest(test.getMatrix()) == 0) {
+				  System.out.println("Draw!");
+				  break;
+			  }
+			  test.turn();
+		  }
+	  }
+  }
+  
   public boolean[] actions(int[][] state) { //checks for valid actions, true means action will be valid, false action is illegal
     int width = state[0].length;
     boolean[] list = new boolean[width];
