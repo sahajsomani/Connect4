@@ -1,12 +1,12 @@
 package connect4;
 
-public class heuristic extends classBot {
+public class heuristic extends classBot {//heuristic function bot
 	private int depth = 9;
 	public heuristic(Game board) {
 		super(board);
 	}
 	
-	public int play() {
+	public int play() {//play method
 		int move = -1;
 	    int[][] state = new int[board.getMatrix().length][board.getMatrix()[0].length];
 	 
@@ -41,7 +41,7 @@ public class heuristic extends classBot {
 		return move;
 	}
 	
-	public double maxValue(int[][] state, double alpha, double beta, int initial) {	
+	public double maxValue(int[][] state, double alpha, double beta, int initial) {	//minimax with a heuristic that uses a non terminal utility function
 		counter++;
 		double util = board.terminalTest(state);
 //		System.out.println("\n\n");
@@ -86,7 +86,7 @@ public class heuristic extends classBot {
 		return v;
 	  } //end maxValue
 	
-	public double minValue(int[][] state, double alpha, double beta, int initial) {
+	public double minValue(int[][] state, double alpha, double beta, int initial) {//minimax that uses a heuristic with a nonterminal utility function
 		counter++;
 		  double util = board.terminalTest(state);
 //			System.out.println("\n\n");
@@ -129,11 +129,4 @@ public class heuristic extends classBot {
 		return v;
 	  } //end minValue
 
-	  private int flip(int player) {
-		  if(player == 1) {
-			  return 2;
-		  } else {
-			  return 1;
-		  }
-	  }
 }
