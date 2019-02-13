@@ -1,11 +1,11 @@
 package connect4;
 
-public class abpruning extends classBot{
+public class abpruning extends classBot{//minimax with alpha beta prunning
 	public abpruning(Game board) {
 		super(board);
 	}
 	
-	public int play() {
+	public int play() {//play method
 		int move = -1;
 	    int[][] state = new int[board.getMatrix().length][board.getMatrix()[0].length];
 
@@ -34,9 +34,9 @@ public class abpruning extends classBot{
 	      }
 //	      System.out.println(v);
 		return move;
-	}
+	}//end play method
 	
-	public double maxValue(int[][] state, double alpha, double beta) {	
+	public double maxValue(int[][] state, double alpha, double beta) {	//minimax with ab pruning and shortes win/longest loss algorithm
 		counter++;
 		int util = board.terminalTest(state);
 		
@@ -73,7 +73,7 @@ public class abpruning extends classBot{
 		return v;
 	  } //end maxValue
 	
-	public double minValue(int[][] state, double alpha, double beta) {
+	public double minValue(int[][] state, double alpha, double beta) {//minimax with ab pruning and shortes win/longest loss algorithm
 		counter++;
 		  int util = board.terminalTest(state);
 	  
@@ -109,11 +109,4 @@ public class abpruning extends classBot{
 		return v;
 	  } //end minValue
 
-	  private int flip(int player) {
-		  if(player == 1) {
-			  return 2;
-		  } else {
-			  return 1;
-		  }
-	  }
 }
