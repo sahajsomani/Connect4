@@ -1,3 +1,4 @@
+package connect4;
 
 public class minimax extends classBot {
   public minimax(Game board) {
@@ -5,10 +6,10 @@ public class minimax extends classBot {
   }
 
   @Override
-  public int play() { //copying the game board matrix
-    int[][] state = new int[board.getMatrix().length][board.getMatrix()[0].length];
+  public int play() {//returns a move made by the minimax bot.
+    int[][] state = new int[board.getMatrix().length][board.getMatrix()[0].length];//takes in the copy of the current state
     int move = -1;
-
+    
     for(int i = 0; i < board.getMatrix().length; i++) {
       for(int j = 0; j < board.getMatrix()[0].length; j++) {
         state[i][j] = board.getMatrix()[i][j];
@@ -16,8 +17,8 @@ public class minimax extends classBot {
     }
     boolean[] actions = board.actions(state);
     int player = board.getPlayer();
-    int depth = board.depth(state);
-
+    int depth = board.depth(state);//amount of stones on the board
+    
     counter = 0;
     int[] v = {Integer.MIN_VALUE, depth};
     for(int i = 0; i < actions.length; i++) {
@@ -41,16 +42,16 @@ public class minimax extends classBot {
     	    }
     	}
     }
-
+    
     return move;
   } //end play
 
-  public int[] maxValue(int[][] state) {
+  public int[] maxValue(int[][] state) {//minimax	
 	  counter++;
 	int util = board.terminalTest(state);
 	int depth = board.depth(state);
 	int[] result = {0, depth};
-
+	
 	if(util != 3) {
 	  if(util == 0) {
 		  return result;
@@ -88,12 +89,12 @@ public class minimax extends classBot {
 	return result;
   } //end maxValue
 
-  public int[] minValue(int[][] state) {
+  public int[] minValue(int[][] state) {//minimax
 	  counter++;
 	  int util = board.terminalTest(state);
 	  int depth = board.depth(state);
 	  int[] result = {0, depth};
-
+  
 	if(util != 3) {
 	  if(util == 0) {
 		  return result;
@@ -131,11 +132,4 @@ public class minimax extends classBot {
 	return result;
   } //end minValue
 
-  private int flip(int player) {
-	  if(player == 1) {
-		  return 2;
-	  } else {
-		  return 1;
-	  }
-  }
 } //end class
