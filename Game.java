@@ -2,7 +2,7 @@ package connect4;
 
 import java.util.*;
 
-public class Game {
+public class Game implements formalization{
   private int[][] matrix;
   private int player;
   private int len;
