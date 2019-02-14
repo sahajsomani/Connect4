@@ -1,13 +1,12 @@
+package connect4;
+
 public interface formalization{
 
-  public boolean currentPlayer();
+		//no abstraction of states as the states are implemented directly in the game class
+	  public boolean[] actions(int[][] matrix); //the actions 
 
-  public boolean[] actions(int[][] matrix);
+	  public int[][] result(int[][] state, int action, int player);//the result
 
-  public void result();
-
-  public int terminalTest(int [][] matrix, int len);
-
-  public int utility();
+	  public int terminalTest(int [][] matrix); //this is the utility function
 
 }
